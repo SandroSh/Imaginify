@@ -17,6 +17,7 @@
     "lucide-react": "^0.373.0",
     "mongodb": "^6.5.0",
     "mongoose": "^8.3.2",
+    "qs": "^6.11.2",
     "next": "14.2.3",
     "react": "^18",
     "react-dom": "^18",
