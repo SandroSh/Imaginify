@@ -25,6 +25,8 @@ import {
 import { useState, useTransition } from "react"
 import { AspectRatioKey, debounce, deepMergeObjects } from "@/lib/utils"
 import MediaUploader from "./MediaUploader"
+import TransformedImage from "./TransformedImage"
+import { updateCredits } from "@/lib/actions/user.actions"
 
 
 
@@ -73,32 +75,32 @@ const TransformationForm = ({ action, data = null, userId, type, creditBalance, 
 
     const onSelectFieldHandler = (value: string, onChangeField: (value: string) => void) => {
         const imageSize = aspectRatioOptions[value as AspectRatioKey];
-        setImage((prevState:any) => ({...prevState, aspectRatio:imageSize.aspectRatio, width:imageSize.width,height:imageSize.height} ) )
+        setImage((prevState: any) => ({ ...prevState, aspectRatio: imageSize.aspectRatio, width: imageSize.width, height: imageSize.height }))
         setNewTransformation(transformationType.config);
         return onChangeField(value);
     }
 
     const onInputChangeHandler = (fieldName: string, value: string, type: string, onChangeField: (value: string) => void) => {
-        debounce(()=>{
-            setNewTransformation((prevState:any) =>({
+        debounce(() => {
+            setNewTransformation((prevState: any) => ({
                 ...prevState,
-                [type]:{
+                [type]: {
                     ...prevState?.[type],
-                    [fieldName === 'prompt' ? 'prompt' : 'to']:value,
+                    [fieldName === 'prompt' ? 'prompt' : 'to']: value,
                 }
             }))
             return onChangeField(value);
         }, 1000)
     }
 
-    // TODO: Return to update Credits
-    const onTransformHandler = async() => {
+
+    const onTransformHandler = async () => {
         setIsTransforming(true);
         setTransformationConfig(deepMergeObjects(newTransformation, transformationConfig));
         setNewTransformation(null);
 
-        startTransition( async() => {
-            // await updateCredits(userId, creditFee);
+        startTransition(async () => {
+            await updateCredits(userId, -1);
         })
     }
 
@@ -150,12 +152,12 @@ const TransformationForm = ({ action, data = null, userId, type, creditBalance, 
 
                             {type === 'recolor' && (
                                 <CustomField
-                                control={form.control}
-                                name="color"
-                                formLabel="Replacement Color"
-                                className="w-full"
-                                render={({ field }) => <Input value={field.value} className="input-field" onChange={(e) => onInputChangeHandler('Color', e.target.value, 'recolor', field.onChange)} />}
-                            />
+                                    control={form.control}
+                                    name="color"
+                                    formLabel="Replacement Color"
+                                    className="w-full"
+                                    render={({ field }) => <Input value={field.value} className="input-field" onChange={(e) => onInputChangeHandler('Color', e.target.value, 'recolor', field.onChange)} />}
+                                />
                             )}
 
                         </div>
@@ -167,9 +169,9 @@ const TransformationForm = ({ action, data = null, userId, type, creditBalance, 
                         control={form.control}
                         name="publicId"
                         className="flex size-full flex-col"
-                        render={({field}) => (
+                        render={({ field }) => (
                             <MediaUploader
-                                onValueChange = {field.onChange}
+                                onValueChange={field.onChange}
                                 setImage={setImage}
                                 publicId={field.value}
                                 image={image}
@@ -177,11 +179,20 @@ const TransformationForm = ({ action, data = null, userId, type, creditBalance, 
                             />
                         )}
                     />
+                    <TransformedImage
+                        image={image}
+                        type={type}
+                        title={form.getValues().title}
+                        isTransforming={isTransforming}
+                        setIsTransforming={setIsTransforming}
+                        transformationConfig={transformationConfig}
+
+                    />
                 </div>
 
                 <div className="flex flex-col gap-4">
-                <Button type="button" className="submit-button capitalize" disabled={isTransforming || newTransformation === null} onClick={onTransformHandler} >{isTransforming ? 'Transforming':'Apply Transformation'}</Button>
-                <Button type="submit" className="submit-button capitalize" disabled={isSubmitting} >{isSubmitting? 'Submitting...':'Save Image'}</Button>
+                    <Button type="button" className="submit-button capitalize" disabled={isTransforming || newTransformation === null} onClick={onTransformHandler} >{isTransforming ? 'Transforming' : 'Apply Transformation'}</Button>
+                    <Button type="submit" className="submit-button capitalize" disabled={isSubmitting} >{isSubmitting ? 'Submitting...' : 'Save Image'}</Button>
                 </div>
             </form>
         </Form>
