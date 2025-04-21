@@ -12,13 +12,12 @@
 - 🖼️ Image optimization and enhancement tools
 - 🔐 Secure user authentication
 - ⚡ Fast and responsive UI
-- 📦 Easy deployment via Vercel
 
 ---
 
 ## 🛠️ Tech Stack
 
-- **Frontend:** Next.js, Tailwind CSS
+- **Frontend&Backend:** Next.js, Tailwind CSS
 - **Database:** MongoDB
 - **Authentication:** Clerk
 - **Deployment:** Vercel
