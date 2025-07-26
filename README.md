@@ -2,20 +2,20 @@
 
 **Imaginify** is an AI-powered SaaS platform for image generation and transformation. Built using Next.js and Tailwind CSS, it provides users with powerful tools to create, optimize, and edit images using AI technologies.
 
-🌐 [Live Demo](https://imaginify-pi-three.vercel.app)
+ [Live Demo](https://imaginify-pi-three.vercel.app)
 
 ---
 
-## 🚀 Features
+##  Features
 
-- 🎨 AI-based image generation
-- 🖼️ Image optimization and enhancement tools
-- 🔐 Secure user authentication
-- ⚡ Fast and responsive UI
+-  AI-based image generation
+-  Image optimization and enhancement tools
+-  Secure user authentication
+-  Fast and responsive UI
 
 ---
 
-## 🛠️ Tech Stack
+##  Tech Stack
 
 - **Frontend&Backend:** Next.js, Tailwind CSS
 - **Database:** MongoDB
